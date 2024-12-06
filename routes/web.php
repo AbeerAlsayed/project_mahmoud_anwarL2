@@ -21,11 +21,13 @@ Route::get('/',\App\Http\Controllers\HomePageController::class);
 Route::prefix('dashboard')->group(function () {
 
     // ==================================== dashboard main page
-    Route::view('/', 'dashboard')->name('dashboard');
-
+//    Route::view('/', 'dashboard')->name('dashboard')->withoutMiddleware('auth');
+    Route::view('/', 'dashboard')->middleware('test:abeer')->name('dashboard');
     // ============================================= products
-    Route::resource('products', ProductController::class);
-
+//    Route::get('products/show/{product}',[ProductController::class,'show'])->name('products.show');
+//    Route::resource('products', ProductController::class)->except('show')->parameters(['products'=>'product:slug']);
+    Route::get('products/show/{product}',[ProductController::class,'show'])->name('products.show');
+    Route::resource('products', ProductController::class)->except('show');
 });
 
 
@@ -36,4 +38,4 @@ Route::prefix('dashboard')->group(function () {
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-// require __DIR__.'/auth.php';
+ require __DIR__.'/auth.php';
